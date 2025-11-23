@@ -1,11 +1,5 @@
 
-from ucimlrepo import fetch_ucirepo, list_available_datasets
-# fetch dataset 
-nursery = fetch_ucirepo(id=76) 
-
-
 ## Imporat relevant packages
-import pickle
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
@@ -23,17 +17,16 @@ from sklearn.model_selection import cross_val_score
 
 
 # Get full dataset (features + target together)
-df = nursery.data.original
+df = pd.read_csv('nursery.csv')
 
 print(df.shape)
 df
 
-# ### EDA
 
+# ### EDA
 
 df.info()
 
-# %%
 df.shape
 
 # %%
@@ -46,19 +39,19 @@ for col in df.columns:
     print(f"{col}: {df[col].nunique()} unique values")
 
 # %%
-df['class'].value_counts(normalize=True)
+df['final evaluation'].value_counts(normalize=True)
 
 # %%
-sns.countplot(data=df, x='class', order=df['class'].value_counts().index)
+sns.countplot(data=df, x='final evaluation', order=df['final evaluation'].value_counts().index)
 plt.title('Class Distribution')
 plt.xticks(rotation=45)
 plt.show()
 
 # %%
-df['class'] = df['class'].replace({'recommend': 'very_recom'}) # Merge recommend and very_recom
+df['final evaluation'] = df['final evaluation'].replace({'recommend': 'very_recom'}) # Merge recommend and very_recom
 
 # %%
-df['class'].value_counts(normalize=True)
+df['final evaluation'].value_counts(normalize=True)
 
 # %%
 for col in df.columns:
@@ -107,15 +100,15 @@ len(df_train), len(df_val), len(df_test)
 
 # %%
 # Separate features 
-df_train_f = df_train.drop('class', axis=1)
-df_val_f = df_val.drop('class', axis=1)
-df_test_f = df_test.drop('class', axis=1)
+df_train_f = df_train.drop('final evaluation', axis=1)
+df_val_f = df_val.drop('final evaluation', axis=1)
+df_test_f = df_test.drop('final evaluation', axis=1)
 
 # %%
 ## Target Features
-y_train = df_train['class']
-y_val = df_val['class']
-y_test = df_test['class']
+y_train = df_train['final evaluation']
+y_val = df_val['final evaluation']
+y_test = df_test['final evaluation']
 
 # %%
 le = LabelEncoder()
@@ -150,27 +143,38 @@ roc_auc = roc_auc_score(y_val, y_pred, multi_class='ovr')
 print("ROC-AUC score:", roc_auc)
 
 
-
-#import pickle, joblib
+# %%
+import pickle, joblib
 # save the model using pickle
 #joblib.dump(log, 'models/logistic_model.pkl')
 #joblib.dump(dv, 'models/dv.pkl')
 
-#print("Model and vectorizer saved successfully.")
+print("Model and vectorizer saved successfully.")
 
+# %%
+import pickle
 
-
+# %%
 output = f'logisticmodel.bin'
 output
 
+# %%
+f_out = open(output, 'wb')
+pickle.dump((dv, log), f_out)
+#f_out.close() # close it mandatory
+
+# %%
 with open(output, 'wb') as f_out:
     pickle.dump((dv, log), f_out)
 
-print(f'the model is saved to {output}')
+# %% [markdown]
+# ### Load the Model
 
+# %%
+import pickle
 
-
-
+# %%
+model_file = 'logisticmodel.bin'
 
 
 
