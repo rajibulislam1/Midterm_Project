@@ -29,16 +29,15 @@ df.info()
 
 df.shape
 
-# %%
 ### Check missing values
 df.isnull().sum()
 
-# %%
+
 ## Unique values per column
 for col in df.columns:
     print(f"{col}: {df[col].nunique()} unique values")
 
-# %%
+#
 df['final evaluation'].value_counts(normalize=True)
 
 # %%

@@ -3,7 +3,7 @@ import requests
 
 url = 'http://localhost:9696/predict'
 
-# 
+
 admission_info = {
     "parents":"usual", 
     "has_nurs":"proper",
@@ -18,5 +18,8 @@ admission_info = {
 
 response = requests.post(url, json=admission_info).json()
 print(response)
+
+
+
 
 

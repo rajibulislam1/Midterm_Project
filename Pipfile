@@ -5,12 +5,15 @@ name = "pypi"
 
 [packages]
 ucimlrepo = "*"
-pandas = "*"
 numpy = "*"
 matplotlib = "*"
 seaborn = "*"
 scikit-learn = "*"
 xgboost = "*"
+pandas = "*"
+flask = "*"
+requests = "*"
+gunicorn = "*"
 
 [dev-packages]
 ipykernel = "*"
